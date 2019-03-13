@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kai.chap.dao.IUserDao">
+    
+    <resultMap id="userMap" type="user">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="sex" property="sex" typeHandler="com.kai.chap.handler.SexEnumHandler"/>
+        <result column="note" property="note"/>
+    </resultMap>
+
+    <select id="selectUserById" resultMap="userMap" parameterType="Integer">
+      select * from t_user where id = #{id}
+    </select>
+
+</mapper>
