@@ -1,4 +1,4 @@
-package com.kai.chap.redis;
+package com.kai.chap.redis.easy;
 
 import java.util.List;
 
