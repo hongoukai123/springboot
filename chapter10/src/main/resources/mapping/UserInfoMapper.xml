@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kai.chap.mapper.UserInfoMapper">
+    <!-- 自定义返回结果集 -->
+    <resultMap id="UserInfoResultMap" type="userInfo">
+        <id property="id" column="id"/>
+        <result property="userName" column="user_name"/>
+        <result property="note" column="note"/>
+    </resultMap>
+
+    <select id="getUserInfoById" parameterType="Integer" resultMap="UserInfoResultMap">
+        select id, user_name, note from t_user_info where id = #{id}
+    </select>
+    
+    <select id="findUserInfos" parameterType="map" resultMap="UserInfoResultMap">
+        select id, user_name, note from t_user_info 
+        where 1=1
+        <if test="userName != null and userName != ''">
+          and user_name like '%${userName}%'
+        </if>
+        <if test="note != null and note != ''">
+          and note like '%${note}%'
+        </if>
+    </select>
+    
+    <insert id="insertUserInfo" parameterType="userInfo">
+        insert into t_user_info(user_name, note) values(#{userName}, #{note})
+    </insert>
+    
+    <update id="updateUserInfo" parameterType="userInfo">
+        update t_user_info set
+        user_name = #{userName},
+        note = #{note}
+        where id = #{id}
+    </update>
+    
+    <delete id="deleteUserInfo">
+        delete from t_user_info where id = #{id}
+    </delete>
+
+</mapper>

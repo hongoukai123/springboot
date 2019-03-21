@@ -172,4 +172,46 @@ public class RedisController {
         return map;
     }
 
+    /**
+     * Redis事务机制
+     * @return
+     */
+    @RequestMapping("/multi")
+    @ResponseBody
+    public Map<String,Object> testMulti(){
+        redisTemplate.opsForValue().set("key1", "value1");
+//        redisTemplate.execute((RedisOperations operations) -> {
+           //设置要监控的key1(watch命令)
+        redisTemplate.watch("key1");
+           //使用multi开启事务，在exec命令执行前，全部都只是进入队列
+        redisTemplate.multi();
+        redisTemplate.opsForValue().set("key2", "value2");
+            //获取值将为null，因为redis只是把命令放入队列中
+            Object value2 = redisTemplate.opsForValue().get("key2");
+            System.out.println("命令在队列，所以value为null【"+ value2 +"】");
+        redisTemplate.opsForValue().set("key3", "value3");
+            Object value3 = redisTemplate.opsForValue().get("key3");
+            System.out.println("命令在队列，所以value为null【"+ value2 +"】");
+            //执行exec命令，将先判别key1是否在监控后背修改过，如果是则不执行事务，否则就执行事务
+        redisTemplate.exec();
+//        });
+//        System.out.println(list);
+        Map<String, Object> map = new HashMap<>();
+        map.put("success", true);
+        return map;
+    }
+
+    /**
+     * Redis流水线测试性能
+     * @return
+     */
+    @RequestMapping("/pipeline")
+    @ResponseBody
+    public Map<String, Object> testPipeline(){
+        Long start = System.currentTimeMillis();
+//        List list = redisTemplate.executePipelined((RedisOperations operations) -> {
+//            return null;
+//        });
+    }
+
 }
