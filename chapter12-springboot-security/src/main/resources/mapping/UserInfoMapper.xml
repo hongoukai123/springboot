@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kai.chap.mapper.IUserInfoMapper">
+
+    <resultMap id="UserInfoResultMap" type="userInfo">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="pwd" property="pwd"/>
+        <result column="available" property="available"/>
+        <result column="note" property="note"/>
+    </resultMap>
+
+    <select id="selectUserById" resultMap="UserInfoResultMap" parameterType="Long">
+      select * from t_user_info where id = #{id}
+    </select>
+
+    <select id="getUserInfoByUserName" resultMap="UserInfoResultMap" parameterType="String">
+      select * from t_user_info where user_name = #{userName}
+    </select>
+
+</mapper>

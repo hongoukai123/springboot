@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kai.chap.mapper.IUserRoleMapper">
+
+    <resultMap id="UserRoleResultMap" type="userRole">
+        <id column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="role_name" property="roleName"/>
+        <result column="available" property="available"/>
+        <result column="userNote" property="userNote"/>
+        <result column="roleNote" property="roleNote"/>
+    </resultMap>
+
+    <select id="findUserRoleByUserName" resultMap="UserRoleResultMap" parameterType="String">
+      select a.id,a.role_id,a.user_id,b.user_name,c.role_name,b.available,b.note as userNote,c.note as roleNote
+      from t_user_role a, t_user_info b, t_role_info c
+      where
+      a.user_id = b.id
+      and a.role_id = c.id
+      and b.user_name = #{userName}
+    </select>
+
+</mapper>
