@@ -7,7 +7,7 @@
     <!-- 加载properties文件 -->
     <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
 
-    <!-- redis数据源 -->
+    <!-- jedisPool连接池的配置 -->
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!-- 最大空闲数 -->
         <property name="maxIdle" value="${redis.maxIdle}" />
@@ -22,15 +22,15 @@
     </bean>
 
     <!--redis链接密码-->
-    <bean id="redisPassword" class="org.springframework.data.redis.connection.RedisPassword">
-        <constructor-arg name="thePassword" value="${redis.auth}"></constructor-arg>
-    </bean>
+    <!--<bean id="redisPassword" class="org.springframework.data.redis.connection.RedisPassword">-->
+        <!--<constructor-arg name="thePassword" value="${redis.auth}"></constructor-arg>-->
+    <!--</bean>-->
 
     <!--spring-data-redis2.0以上的配置-->
     <bean id="redisStandaloneConfiguration" class="org.springframework.data.redis.connection.RedisStandaloneConfiguration">
         <property name="hostName" value="${redis.hostName}"/>
         <property name="port" value="${redis.port}"/>
-        <property name="password" ref="redisPassword" />
+        <!--<property name="password" ref="redisPassword" />-->
         <property name="database" value="${redis.dbIndex}"/>
     </bean>
 
@@ -65,8 +65,7 @@
     </bean>
 
     <!--&lt;!&ndash; 自定义redis工具类，在需要缓存的地方注入此类 &ndash;&gt;-->
-    <!--<bean id="redisCacheManager" class="com.kai.chap.redis.RedisCacheManager">-->
-        <!--<property name="redisTemplate" ref="redisTemplate"/>-->
-    <!--</bean>-->
+    <bean id="redisCacheManager" class="com.kai.chap.redis.RedisCacheManager">
+    </bean>
 
 </beans>
